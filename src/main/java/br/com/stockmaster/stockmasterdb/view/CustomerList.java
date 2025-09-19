@@ -4,12 +4,14 @@
  */
 package br.com.stockmaster.stockmasterdb.view;
 
-import classes.TempDatabase;
-import classes.Customer;
+import br.com.stockmaster.stockmasterdb.classes.TempDatabase;
+import br.com.stockmaster.stockmasterdb.classes.Customer;
+import br.com.stockmaster.stockmasterdb.dao.CustomerDAO;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -18,20 +20,12 @@ import javax.swing.table.DefaultTableModel;
  * @author leona
  */
 public class CustomerList extends javax.swing.JFrame {
-
-    /**
-     * Creates new form mainPage
-     */
+    
     public CustomerList() {
         initComponents();
         setSize(Toolkit.getDefaultToolkit().getScreenSize());
         setExtendedState(MAXIMIZED_BOTH);
         listUpdate();
-            // Ajuste do layout do Slide
-
-
-    // Adiciona o painel inicial (landing) centralizado
-        
     }
     
     public void listUpdate(){
@@ -44,7 +38,8 @@ public class CustomerList extends javax.swing.JFrame {
         }
     };
     
-    for (Customer c : TempDatabase.getCustomers()){
+    List<Customer> customers = new CustomerDAO().getAll();
+    for (Customer c : customers){
     Object[] row = {
     c.getId(),
         c.getName(),
@@ -78,7 +73,7 @@ public class CustomerList extends javax.swing.JFrame {
         deleteButton = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        panelGradiente1 = new swing.PanelGradiente();
+        panelGradiente1 = new br.com.stockmaster.stockmasterdb.swing.PanelGradiente();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -148,6 +143,11 @@ public class CustomerList extends javax.swing.JFrame {
         deleteButton.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
         deleteButton.setText("EXCLUIR");
         deleteButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -500,6 +500,21 @@ this.dispose();
      this.dispose();
     }//GEN-LAST:event_editButtonActionPerformed
 
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+    int selectedRow = customerTable.getSelectedRow();
+    if (selectedRow == -1){
+    JOptionPane.showMessageDialog(this, "Selecione um cliente!");
+    return;
+    }
+    int id = (int) customerTable.getValueAt(selectedRow, 0);
+    String n = (String) customerTable.getValueAt(selectedRow, 1);
+    int r = JOptionPane.showConfirmDialog(this, "Tem certeza de que deseja deletar " + n + "?", "Confirmação", JOptionPane.YES_OPTION, JOptionPane.NO_OPTION);
+    if (r == JOptionPane.YES_OPTION){
+    new CustomerDAO().delete(id);
+    }
+    listUpdate();
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -573,7 +588,7 @@ this.dispose();
     private javax.swing.JButton lEmployeer;
     private javax.swing.JButton lProduct;
     private javax.swing.JButton lSupplier;
-    private swing.PanelGradiente panelGradiente1;
+    private br.com.stockmaster.stockmasterdb.swing.PanelGradiente panelGradiente1;
     private javax.swing.JButton rEntry;
     private javax.swing.JButton rOut;
     private javax.swing.JButton rSales;
