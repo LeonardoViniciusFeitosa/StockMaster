@@ -58,16 +58,16 @@ public class StockEntry {
         return product;
     }
 
-    public void setProduct() {
-        this.product = product;
+    public void setProduct(Product p) {
+        this.product = p;
     }
 
     public Supplier getSupplier() {
         return supplier;
     }
 
-    public void setSupplierName(String supplierName) {
-        this.supplier.setName(supplierName);
+    public void setSupplier(Supplier s) {
+        this.supplier = s;
     }
 
     public int getQuantity() {
@@ -82,8 +82,8 @@ public class StockEntry {
         return date;
     }
 
-    public void setDate(String dateString) {
-        this.date = date;
+    public void setDate(LocalDate d) {
+        this.date = d;
     }
 
     public String getNotes() {

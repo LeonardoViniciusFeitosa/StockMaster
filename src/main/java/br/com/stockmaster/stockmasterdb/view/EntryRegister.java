@@ -4,14 +4,21 @@
  */
 package br.com.stockmaster.stockmasterdb.view;
 
-import classes.TempDatabase;
-import classes.StockEntry;
-import classes.Product;
-import classes.Supplier;
+import br.com.stockmaster.stockmasterdb.classes.TempDatabase;
+import br.com.stockmaster.stockmasterdb.classes.StockEntry;
+import br.com.stockmaster.stockmasterdb.classes.Product;
+import br.com.stockmaster.stockmasterdb.classes.Supplier;
+import br.com.stockmaster.stockmasterdb.dao.EntryDAO;
+import br.com.stockmaster.stockmasterdb.dao.ProductDAO;
+import br.com.stockmaster.stockmasterdb.dao.SupplierDAO;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -31,10 +38,12 @@ public class EntryRegister extends javax.swing.JFrame {
     }
     
     private void comboBoxUpdate(){
-    for (Supplier s : TempDatabase.getSuppliers()){
-    supplierBox.addItem(s.getName());
+        List<Supplier> suppliers = new SupplierDAO().getAll();
+        List<Product> products = new ProductDAO().getAll();
+        for (Supplier s : suppliers){
+    supplierBox.addItem(s);
     }
-    for (Product p : TempDatabase.getProducts()){
+    for (Product p : products){
     productBox.addItem(p);
     }
     }
@@ -49,7 +58,7 @@ public class EntryRegister extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        panelGradiente1 = new swing.PanelGradiente();
+        panelGradiente1 = new br.com.stockmaster.stockmasterdb.swing.PanelGradiente();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -533,9 +542,9 @@ this.dispose();
 
     private void registerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerButtonActionPerformed
     Product p = (Product) productBox.getSelectedItem();
-    String supplierName = (String) supplierBox.getSelectedItem();
+    Supplier supplier = (Supplier) supplierBox.getSelectedItem();
     String quantityText = quantityField.getText();
-    String data = dataField.getText();
+    String date = dataField.getText();
     String notes = obsArea.getText();
 
     // Verifica se algum produto foi selecionado
@@ -557,11 +566,15 @@ this.dispose();
         return;
     }
 
-    // Validação de data no formato DD/MM/AAAA
-    if (!data.matches("^([0-2][0-9]|3[0-1])/([0][1-9]|1[0-2])/\\d{4}$")) {
-        JOptionPane.showMessageDialog(rootPane, "Data inválida! Use o formato DD/MM/AAAA.");
-        return;
-    }
+    // Validação de data no formato YYYY/MM/DD
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDate parsedDate;
+        try {
+            parsedDate = LocalDate.parse(date, formatter);
+        } catch (DateTimeParseException e1) {
+            JOptionPane.showMessageDialog(rootPane, "Data inválida! Use o formato YYYY/MM/DD. Ex: 2000/12/10");
+            return;
+}
 
     // Registra entrada de estoque
     if (!p.increaseQuantity(quantity)) {
@@ -569,8 +582,14 @@ this.dispose();
         return;
     }
 
-    StockEntry entry = new StockEntry(p.getName(), supplierName, quantity, data, notes);
-    TempDatabase.addStockEntry(entry);
+    StockEntry e = new StockEntry();
+    e.setDate(parsedDate);
+    e.setNotes(notes);
+    e.setProduct(p);
+    e.setQuantity(quantity);
+    e.setSupplier(supplier);
+    
+    new EntryDAO().save(e);
 
     JOptionPane.showMessageDialog(rootPane, "Entrada de estoque registrada com sucesso!");
     }//GEN-LAST:event_registerButtonActionPerformed
@@ -672,7 +691,7 @@ this.dispose();
     private javax.swing.JButton lProduct;
     private javax.swing.JButton lSupplier1;
     private javax.swing.JTextArea obsArea;
-    private swing.PanelGradiente panelGradiente1;
+    private br.com.stockmaster.stockmasterdb.swing.PanelGradiente panelGradiente1;
     private javax.swing.JComboBox<Product> productBox;
     private javax.swing.JTextField quantityField;
     private javax.swing.JButton rOut;
@@ -680,6 +699,6 @@ this.dispose();
     private javax.swing.JButton rSupplier;
     private javax.swing.JButton registerButton;
     private javax.swing.JButton returnButton;
-    private javax.swing.JComboBox<String> supplierBox;
+    private javax.swing.JComboBox<Supplier> supplierBox;
     // End of variables declaration//GEN-END:variables
 }
