@@ -6,6 +6,7 @@ package br.com.stockmaster.stockmasterdb.view;
 
 import br.com.stockmaster.stockmasterdb.classes.Employer;
 import br.com.stockmaster.stockmasterdb.classes.TempDatabase;
+import br.com.stockmaster.stockmasterdb.dao.EmployerDAO;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -593,8 +594,15 @@ try {
         }
 
         // Cria e adiciona o funcionário
-        Employer employer = new Employer(name, doc, address, number, email, role);
-        TempDatabase.addEmployer(employer);
+        Employer e = new Employer();
+        e.setAddress(address);
+        e.setEmail(email);
+        e.setName(name);
+        e.setNumber(number);
+        e.setPersonalId(doc);
+        e.setRole(role);
+        
+        new EmployerDAO().save(e);
 
         JOptionPane.showMessageDialog(this, "Funcionário registrado com sucesso!");
 
