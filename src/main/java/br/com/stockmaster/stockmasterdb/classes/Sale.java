@@ -85,7 +85,7 @@ public class Sale {
         return date;
     }
 
-    public void setDate(String dateString) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

@@ -4,6 +4,7 @@
  */
 package br.com.stockmaster.stockmasterdb.dao;
 
+import br.com.stockmaster.stockmasterdb.classes.Product;
 import br.com.stockmaster.stockmasterdb.classes.StockEntry;
 import br.com.stockmaster.stockmasterdb.util.JPAUtil;
 import jakarta.persistence.EntityManager;
@@ -14,8 +15,9 @@ import java.util.List;
  * @author leona
  */
 public class EntryDAO {
-    public void delete(int id){
     EntityManager em = JPAUtil.getEntityManager();
+    
+    public void delete(int id){
     try{
     em.getTransaction().begin();
     StockEntry entry = em.find(StockEntry.class, id);
@@ -31,14 +33,13 @@ public class EntryDAO {
     }
 
     public void save(StockEntry entry) {
-        EntityManager em = JPAUtil.getEntityManager();
-        try {
-            em.getTransaction().begin();
-            em.persist(entry);
-            em.getTransaction().commit();
-        } finally {
-            em.close();
-        }
+        JPAUtil.save(entry);
+        Product p = JPAUtil.find(Product.class, entry.getProduct().getId());
+        p.setQuantity(p.getQuantity() + entry.getQuantity());
+        em.getTransaction().begin();
+        em.merge(p);
+        em.getTransaction().commit();
+        em.close();
     }
 
     public void update(StockEntry entry) {
