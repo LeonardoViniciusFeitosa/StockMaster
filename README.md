@@ -65,3 +65,6 @@ mvn clean install
 mvn exec:java
 ```
 (ou execute a classe principal diretamente pela sua IDE, como IntelliJ ou NetBeans).
+
+### Autores
+Projeto desenvolvido por Leonardo Vinicius.
