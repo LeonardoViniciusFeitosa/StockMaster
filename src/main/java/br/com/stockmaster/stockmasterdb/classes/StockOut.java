@@ -54,8 +54,8 @@ public class StockOut {
         return product;
     }
 
-    public void setProductName(String productName) {
-        this.product.setName(productName);
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public int getQuantity() {
@@ -70,7 +70,7 @@ public class StockOut {
         return date;
     }
 
-    public void setDate(String dateString) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
