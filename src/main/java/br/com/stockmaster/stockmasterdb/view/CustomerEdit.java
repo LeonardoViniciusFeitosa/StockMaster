@@ -4,8 +4,9 @@
  */
 package br.com.stockmaster.stockmasterdb.view;
 
-import classes.TempDatabase;
-import classes.Customer;
+import br.com.stockmaster.stockmasterdb.classes.Customer;
+import br.com.stockmaster.stockmasterdb.dao.CustomerDAO;
+import br.com.stockmaster.stockmasterdb.classes.Customer;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -33,7 +34,7 @@ int customerId;
     }
     
     private void FieldsUpdate(int id){
-    Customer c = TempDatabase.getCustomerById(id);
+    Customer c = new CustomerDAO().getById(id);
     nameField.setText(c.getName());
     documentField.setText(c.getDocument());
     addressField.setText(c.getAddress());
@@ -70,7 +71,7 @@ int customerId;
         obsArea = new javax.swing.JTextArea();
         jPanel5 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        panelGradiente1 = new swing.PanelGradiente();
+        panelGradiente1 = new br.com.stockmaster.stockmasterdb.swing.PanelGradiente();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -602,14 +603,9 @@ this.dispose();
     }
 
     // Atualiza cliente se encontrado
-    Customer customer = TempDatabase.getCustomerById(customerId);
+    Customer customer = new CustomerDAO().getById(customerId);
     if (customer != null) {
-        customer.setName(name);
-        customer.setDocument(doc);
-        customer.setAddress(address);
-        customer.setNumber(number);
-        customer.setEmail(email);
-        customer.setNotes(notes);
+        new CustomerDAO().update(customer, name, doc, address, number, email, notes);
 
         JOptionPane.showMessageDialog(this, "Cliente atualizado com sucesso!");
     } else {
@@ -715,7 +711,7 @@ this.dispose();
     private javax.swing.JTextField nameField;
     private javax.swing.JTextField numberField;
     private javax.swing.JTextArea obsArea;
-    private swing.PanelGradiente panelGradiente1;
+    private br.com.stockmaster.stockmasterdb.swing.PanelGradiente panelGradiente1;
     private javax.swing.JButton rEntry;
     private javax.swing.JButton rOut;
     private javax.swing.JButton rSales;

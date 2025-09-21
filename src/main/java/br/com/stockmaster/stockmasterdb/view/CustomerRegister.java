@@ -4,8 +4,8 @@
  */
 package br.com.stockmaster.stockmasterdb.view;
 
-import br.com.stockmaster.stockmasterdb.classes.TempDatabase;
 import br.com.stockmaster.stockmasterdb.classes.Customer;
+import br.com.stockmaster.stockmasterdb.dao.CustomerDAO;
 import br.com.stockmaster.stockmasterdb.util.JPAUtil;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
@@ -571,6 +571,10 @@ try {
             JOptionPane.showMessageDialog(this, "CPF/CNPJ inválido! Informe um CPF (11 dígitos) ou CNPJ (14 dígitos).");
             return;
         }
+        if(new CustomerDAO().getByDoc(doc) != null){
+        JOptionPane.showMessageDialog(this, "Esse CPF/CNPJ já está registrado no nosso sistema!");
+        return;
+        }
 
         // Validação telefone (10 ou 11 dígitos)
         if (!number.matches("\\d{10,11}")) {
@@ -597,6 +601,12 @@ try {
 
         JOptionPane.showMessageDialog(this, "Cliente registrado com sucesso!");
 
+        nameField.setText("");
+        addressField.setText("");
+        emailField.setText("");
+        numberField.setText("");
+        documentField.setText("");
+        obsArea.setText("");
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Ocorreu um erro ao registrar o cliente: " + e.getMessage());
     }

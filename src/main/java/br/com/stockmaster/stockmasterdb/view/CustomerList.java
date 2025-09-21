@@ -4,7 +4,7 @@
  */
 package br.com.stockmaster.stockmasterdb.view;
 
-import br.com.stockmaster.stockmasterdb.classes.TempDatabase;
+
 import br.com.stockmaster.stockmasterdb.classes.Customer;
 import br.com.stockmaster.stockmasterdb.dao.CustomerDAO;
 import java.awt.BorderLayout;

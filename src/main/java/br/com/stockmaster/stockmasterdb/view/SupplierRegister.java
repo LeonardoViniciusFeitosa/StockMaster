@@ -4,7 +4,6 @@
  */
 package br.com.stockmaster.stockmasterdb.view;
 
-import br.com.stockmaster.stockmasterdb.classes.TempDatabase;
 import br.com.stockmaster.stockmasterdb.classes.Supplier;
 import br.com.stockmaster.stockmasterdb.dao.SupplierDAO;
 import br.com.stockmaster.stockmasterdb.util.JPAUtil;
@@ -583,6 +582,10 @@ this.dispose();
         JOptionPane.showMessageDialog(this, "CNPJ inválido! Deve conter exatamente 14 números.");
         return;
     }
+    if (new SupplierDAO().findByTaxId(cnpj) != null){
+        JOptionPane.showMessageDialog(this, "Esse CNPJ já está cadastrado no nosso sistema!");
+        return;
+    }
 
     // Validação telefone (10 ou 11 dígitos)
     if (!number.matches("\\d{10,11}")) {
@@ -596,6 +599,7 @@ this.dispose();
         return;
     }
 
+    //Valida se o 
     // Se passou em todas as validações, cria o fornecedor
     try{
     Supplier s = new Supplier();

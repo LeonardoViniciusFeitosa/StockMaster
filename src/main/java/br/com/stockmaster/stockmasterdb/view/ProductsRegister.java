@@ -4,7 +4,6 @@
  */
 package br.com.stockmaster.stockmasterdb.view;
 
-import br.com.stockmaster.stockmasterdb.classes.TempDatabase;
 import br.com.stockmaster.stockmasterdb.classes.Product;
 import br.com.stockmaster.stockmasterdb.classes.Supplier;
 import br.com.stockmaster.stockmasterdb.dao.ProductDAO;

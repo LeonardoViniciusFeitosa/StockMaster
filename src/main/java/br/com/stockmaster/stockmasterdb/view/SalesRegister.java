@@ -4,7 +4,6 @@
  */
 package br.com.stockmaster.stockmasterdb.view;
 
-import br.com.stockmaster.stockmasterdb.classes.TempDatabase;
 import br.com.stockmaster.stockmasterdb.classes.Customer;
 import br.com.stockmaster.stockmasterdb.classes.Product;
 import br.com.stockmaster.stockmasterdb.classes.Sale;
@@ -699,6 +698,10 @@ this.dispose();
     listUpdate();
 
     JOptionPane.showMessageDialog(rootPane, "Venda registrada com sucesso!");
+        productBox.setSelectedIndex(0);
+        customerBox.setSelectedIndex(0);
+        quantityField.setText("");
+        dataField.setText("");
     }//GEN-LAST:event_registerButtonActionPerformed
 
     private void productBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productBoxActionPerformed

@@ -7,6 +7,7 @@ package br.com.stockmaster.stockmasterdb.dao;
 import br.com.stockmaster.stockmasterdb.classes.Employer;
 import br.com.stockmaster.stockmasterdb.util.JPAUtil;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import java.util.List;
 
 /**
@@ -41,11 +42,17 @@ public class EmployerDAO {
         }
     }
 
-    public void update(Employer employer) {
+    public void update(Employer e, String name, String doc, String address, String number, String email, String role) {
          EntityManager em = JPAUtil.getEntityManager();
         try {
             em.getTransaction().begin();
-            em.merge(employer);
+            e.setAddress(address);
+            e.setEmail(email);
+            e.setName(name);
+            e.setNumber(number);
+            e.setPersonalId(doc);
+            e.setRole(role);
+            em.merge(e);
             em.getTransaction().commit();
         } finally {
             em.close();
@@ -58,6 +65,18 @@ public class EmployerDAO {
             return em.find(Employer.class, id);
         } finally {
             em.close();
+        }
+    }
+    
+    public Employer findByDoc(String personalId) {
+        EntityManager em = JPAUtil.getEntityManager();
+        try{
+        return (Employer) em.createQuery("SELECT e FROM Employer e WHERE e.personalId = :personalId")
+                .setParameter("personalId", personalId).getSingleResult();
+        }catch(NoResultException e){
+        return null;
+        }finally{
+        em.close();
         }
     }
 

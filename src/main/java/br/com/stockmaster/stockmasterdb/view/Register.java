@@ -4,7 +4,6 @@
  */
 package br.com.stockmaster.stockmasterdb.view;
 
-import br.com.stockmaster.stockmasterdb.classes.TempDatabase;
 import br.com.stockmaster.stockmasterdb.classes.User;
 import br.com.stockmaster.stockmasterdb.dao.UserDAO;
 import java.awt.event.ActionListener;

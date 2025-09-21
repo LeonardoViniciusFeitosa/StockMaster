@@ -5,7 +5,6 @@
 package br.com.stockmaster.stockmasterdb.view;
 
 import br.com.stockmaster.stockmasterdb.classes.Employer;
-import br.com.stockmaster.stockmasterdb.classes.TempDatabase;
 import br.com.stockmaster.stockmasterdb.dao.EmployerDAO;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
@@ -580,6 +579,11 @@ try {
             JOptionPane.showMessageDialog(this, "CPF inválido! Deve conter 11 dígitos.");
             return;
         }
+        
+        if (new EmployerDAO().findByDoc(doc) != null){
+        JOptionPane.showMessageDialog(this, "Esse CPF já está registrado no nosso sistema!");
+        return;
+        }
 
         // Validação telefone (10 ou 11 dígitos)
         if (!number.matches("\\d{10,11}")) {
@@ -605,6 +609,13 @@ try {
         new EmployerDAO().save(e);
 
         JOptionPane.showMessageDialog(this, "Funcionário registrado com sucesso!");
+        
+        nameField.setText("");
+        addressField.setText("");
+        emailField.setText("");
+        numberField.setText("");
+        docField.setText("");
+        roleField.setText("");
 
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Ocorreu um erro ao registrar o funcionário: " + e.getMessage());

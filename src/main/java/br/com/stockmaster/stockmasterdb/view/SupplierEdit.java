@@ -4,8 +4,8 @@
  */
 package br.com.stockmaster.stockmasterdb.view;
 
-import classes.TempDatabase;
-import classes.Supplier;
+import br.com.stockmaster.stockmasterdb.classes.Supplier;
+import br.com.stockmaster.stockmasterdb.dao.SupplierDAO;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
  * @author leona
  */
 public class SupplierEdit extends javax.swing.JFrame {
+    SupplierDAO dao = new SupplierDAO();
 
 int SupplierId;
 
@@ -26,15 +27,11 @@ int SupplierId;
         setExtendedState(MAXIMIZED_BOTH);
         FieldsUpdate(id);
         this.SupplierId = id;
-            // Ajuste do layout do Slide
-
-
-    // Adiciona o painel inicial (landing) centralizado
         
     }
     
     private void FieldsUpdate(int id){
-   Supplier s = TempDatabase.getSupplierById(id);
+   Supplier s = dao.findById(id);
    nameField.setText(s.getName());
    cnpjField.setText(s.getTaxId());
    addressField.setText(s.getAddress());
@@ -53,7 +50,7 @@ int SupplierId;
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        panelGradiente1 = new swing.PanelGradiente();
+        panelGradiente1 = new  br.com.stockmaster.stockmasterdb.swing.PanelGradiente();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -589,7 +586,7 @@ this.dispose();
     }
 
     // Atualiza o fornecedor
-    Supplier supplier = TempDatabase.getSupplierById(SupplierId);
+    Supplier supplier = dao.findById(SupplierId);
     if (supplier != null) {
         supplier.setName(name);
         supplier.setTaxId(cnpj);
@@ -597,6 +594,7 @@ this.dispose();
         supplier.setNumber(number);
         supplier.setEmail(email);
         supplier.setNotes(obs);
+        dao.update(supplier);
 
         JOptionPane.showMessageDialog(this, "Fornecedor atualizado com sucesso!");
     } else {
@@ -685,7 +683,7 @@ this.dispose();
     private javax.swing.JTextField nameField;
     private javax.swing.JTextField numberField;
     private javax.swing.JTextArea obsArea;
-    private swing.PanelGradiente panelGradiente1;
+    private  br.com.stockmaster.stockmasterdb.swing.PanelGradiente panelGradiente1;
     private javax.swing.JButton rEntry;
     private javax.swing.JButton rOut;
     private javax.swing.JButton rSales;

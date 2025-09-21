@@ -4,7 +4,6 @@
  */
 package br.com.stockmaster.stockmasterdb.view;
 
-import br.com.stockmaster.stockmasterdb.classes.TempDatabase;
 import br.com.stockmaster.stockmasterdb.classes.StockOut;
 import br.com.stockmaster.stockmasterdb.classes.Product;
 import br.com.stockmaster.stockmasterdb.classes.Supplier;
@@ -554,6 +553,11 @@ this.dispose();
         new StockOutDAO().save(out);
 
         JOptionPane.showMessageDialog(rootPane, "Saída de estoque registrada com sucesso!");
+        
+        productBox.setSelectedIndex(0);
+        quantityField.setText("");
+        dataField.setText("");
+        notesArea.setText("");
     }//GEN-LAST:event_registerButtonActionPerformed
 
     private void productBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_productBoxActionPerformed
