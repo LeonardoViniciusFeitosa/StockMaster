@@ -1,4 +1,4 @@
-# StockMaster
+# StockMaster (Em desenvolvimento)
 
 ## Descrição
 O **StockMaster** é um sistema desktop para gestão de estoque de empresas, desenvolvido em Java com JPA/Hibernate e MySQL. Ele permite o cadastro e controle de produtos, fornecedores, clientes, funcionários, entradas e saídas de estoque, além de gerenciamento de vendas.
