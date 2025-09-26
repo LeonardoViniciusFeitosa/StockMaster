@@ -66,5 +66,13 @@ mvn exec:java
 ```
 (ou execute a classe principal diretamente pela sua IDE, como IntelliJ ou NetBeans).
 
+### 5. Acesso ao Sistema
+Após iniciar o sistema, utilize as credenciais já cadastradas no banco:
+* Usuário: admin
+* Senha: admin
+
+**Importante:** este usuário foi inserido no banco com senha em hash MD5 (21232f297a57a5a743894a0e4a801fc3) e já estará disponível após rodar o script StockMasterDB.SQL.
+Se desejar, é possível criar novos usuários clicando em “Ainda não tem uma conta?” na tela de login.
+
 ### Autores
 Projeto desenvolvido por Leonardo Vinicius.
